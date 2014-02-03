@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab62b9bd_d4314dba",
+        "filename": "src/com/android/providers/downloads/DownloadNotifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000026
+      },
+      "writtenOn": "2014-02-03T15:30:55Z",
+      "side": 1,
+      "message": "please externalize the strings. at some point we may want to have translations for it",
+      "revId": "3cc2aa6723e0b410445a91035b44f874cd3ae635",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}
