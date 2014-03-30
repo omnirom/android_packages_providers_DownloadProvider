@@ -282,33 +282,30 @@ public class DownloadNotifier {
 
                 String contentText = null;
 
+                if (!TextUtils.isEmpty(info.mDescription)) {
+                    inboxStyle.addLine(info.mDescription);
+                } else if (!TextUtils.isEmpty(info.mPackage)) {
+                    inboxStyle.addLine(info.mPackage);
+                }
+
                 if (type == TYPE_ACTIVE) {
-                    if (!TextUtils.isEmpty(info.mDescription)) {
-                        inboxStyle.addLine(info.mDescription);
-                        inboxStyle.setSummaryText(remainingText);
-                    } else {
-                        inboxStyle.addLine(remainingText);
-                    }
+                    contentText = remainingText;
                     builder.setContentInfo(speedText + ", " + percentText);
 
                 } else if (type == TYPE_WAITING) {
-                    builder.setContentText(
-                            res.getString(R.string.notification_need_wifi_for_size));
+                    contentText = res.getString(R.string.notification_need_wifi_for_size);
 
                 } else if (type == TYPE_COMPLETE) {
                     if (Downloads.Impl.isStatusError(info.mStatus)) {
-
                         contentText = res.getString(R.string.notification_download_failed);
-
-                        builder.setContentText(contentText);
                     } else if (Downloads.Impl.isStatusSuccess(info.mStatus)) {
                         contentText = res.getString(R.string.notification_download_complete);
-
-                        builder.setContentText(contentText);
                     }
                 }
 
-                notif = builder.build();
+                inboxStyle.setSummaryText(contentText);
+                builder.setContentText(contentText);
+                notif = inboxStyle.build();
 
             } else {
                 final Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
