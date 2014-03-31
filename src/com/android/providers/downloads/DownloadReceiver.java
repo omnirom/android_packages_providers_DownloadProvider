@@ -81,7 +81,25 @@ public class DownloadReceiver extends BroadcastReceiver {
             if (info != null && info.isConnected()) {
                 startService(context);
             }
-        } else if (action.equals(Constants.ACTION_RETRY)) {
+        } else if (action.equals(Constants.ACTION_NOTIFICATION_STOP)
+                   || action.equals(Constants.ACTION_NOTIFICATION_PAUSE)
+                   || action.equals(Constants.ACTION_NOTIFICATION_RESUME)
+                   || action.equals(Constants.ACTION_NOTIFICATION_RETRY)) {
+            final PendingResult result = goAsync();
+            if (result == null) {
+                // TODO: remove this once test is refactored
+                handleFromNotificationBroadcast(context, intent);
+            } else {
+                sAsyncHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        handleFromNotificationBroadcast(context, intent);
+                        result.finish();
+                    }
+                });
+            }
+        } else if (action.equals(Constants.ACTION_RETRY)
+                || action.equals(Constants.ACTION_RESUME)) {
             startService(context);
         } else if (action.equals(Constants.ACTION_OPEN)
                 || action.equals(Constants.ACTION_LIST)
@@ -121,6 +139,30 @@ public class DownloadReceiver extends BroadcastReceiver {
         } else if (Constants.ACTION_HIDE.equals(action)) {
             final long id = ContentUris.parseId(intent.getData());
             hideNotification(context, id);
+        }
+    }
+
+    private void handleFromNotificationBroadcast(Context context, Intent intent) {
+        final DownloadManager downManager = (DownloadManager) context
+                    .getSystemService(Context.DOWNLOAD_SERVICE);
+        downManager.setAccessAllDownloads(true);
+        final String action = intent.getAction();
+        if (Constants.ACTION_NOTIFICATION_STOP.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            downManager.remove(id);
+        } else if (Constants.ACTION_NOTIFICATION_PAUSE.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            downManager.pauseDownload(id);
+        } else if (Constants.ACTION_NOTIFICATION_RESUME.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            downManager.resumeDownload(id);
+            Intent resIntent = new Intent(Constants.ACTION_RESUME);
+            resIntent.setClassName(Constants.PROVIDER_PACKAGE_NAME,
+                                 "com.android.providers.downloads.DownloadReceiver");
+            context.sendBroadcast(resIntent);
+        } else if (Constants.ACTION_NOTIFICATION_RETRY.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            downManager.restartDownload(id);
         }
     }
 
