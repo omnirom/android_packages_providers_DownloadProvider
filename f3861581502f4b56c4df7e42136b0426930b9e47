@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b77b57d_7af5b87f",
+        "filename": "src/com/android/providers/downloads/DownloadNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000026
+      },
+      "writtenOn": "2014-03-31T15:25:25Z",
+      "side": 1,
+      "message": "as said - you should not display warning icon here here - waiting is not the same as paused. Paused is active triggered by user. Cant you use the same as for the pause intent button? Actually a warning icon for waiting is also not nice ... :)",
+      "revId": "f3861581502f4b56c4df7e42136b0426930b9e47",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}
