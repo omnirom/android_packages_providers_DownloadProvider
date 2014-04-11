@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b77b57d_bad66dc7",
+        "filename": "src/com/android/providers/downloads/DownloadNotifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000026
+      },
+      "writtenOn": "2014-04-11T22:14:40Z",
+      "side": 1,
+      "message": "this removes the the possibility to translate.\nThere are languages e.g. kyrilic or chinese that want something different then K here :)",
+      "revId": "b6c66607d2c0ebf3d4a9cf57ef18ac5b1f05f58d",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}
