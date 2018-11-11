@@ -1163,23 +1163,6 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
-    private SqlSelection getWhereClause(final Uri uri, final String where, final String[] whereArgs,
-            int uriMatch) {
-        SqlSelection selection = new SqlSelection();
-        selection.appendClause(where, whereArgs);
-        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
-            selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
-        }
-        if ((uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID)
-                && getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ALL)
-                != PackageManager.PERMISSION_GRANTED) {
-            selection.appendClause(
-                    Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
-                    Binder.getCallingUid(), Binder.getCallingUid());
-        }
-        return selection;
-    }
-
     /**
      * Create a query builder that filters access to the underlying database
      * based on both the requested {@link Uri} and permissions of the caller.
