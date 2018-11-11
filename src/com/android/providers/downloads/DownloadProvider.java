@@ -187,6 +187,43 @@ public final class DownloadProvider extends ContentProvider {
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
 
+    /**  
+     * This class encapsulates a SQL where clause and its parameters.  It makes it possible for
+     * shared methods (like {@link DownloadProvider#getWhereClause(Uri, String, String[], int)})
+     * to return both pieces of information, and provides some utility logic to ease piece-by-piece
+     * construction of selections.
+     */
+    private static class SqlSelection {
+        public StringBuilder mWhereClause = new StringBuilder();
+        public List<String> mParameters = new ArrayList<String>();
+
+        public <T> void appendClause(String newClause, final T... parameters) {
+            if (newClause == null || newClause.isEmpty()) {
+                return;
+            }
+            if (mWhereClause.length() != 0) { 
+                mWhereClause.append(" AND ");
+            }
+            mWhereClause.append("(");
+            mWhereClause.append(newClause);
+            mWhereClause.append(")");
+            if (parameters != null) {
+                for (Object parameter : parameters) {
+                    mParameters.add(parameter.toString());
+                }
+            }
+        }
+
+        public String getSelection() {
+            return mWhereClause.toString();
+        }
+
+        public String[] getParameters() {
+            String[] array = new String[mParameters.size()];
+            return mParameters.toArray(array);
+        }
+    }
+
     /**
      * Creates and updated database on demand when opening it.
      * Helper class to create database the first time the provider is
