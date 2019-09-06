@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2017 The Android Open Source Project
+<!-- Copyright (C) 2018 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,15 +13,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<configuration description="Run Tests for Download Manager.">
+<configuration description="Run tests for download provider permission.">
     <target_preparer class="com.android.tradefed.targetprep.TestAppInstallSetup">
-        <option name="test-file-name" value="DownloadProviderTests.apk" />
+        <option name="test-file-name" value="DownloadProviderPermissionTests.apk" />
     </target_preparer>
 
     <option name="test-suite-tag" value="apct" />
-    <option name="test-tag" value="DownloadProviderTests" />
-    <test class="com.android.tradefed.testtype.AndroidJUnitTest" >
-        <option name="package" value="com.android.providers.downloads.tests" />
+    <option name="test-tag" value="DownloadProviderPermissionTests" />
+    <test class="com.android.tradefed.testtype.InstrumentationTest" >
+        <option name="package" value="com.android.providers.downloads.permission.tests" />
         <option name="runner" value="android.test.InstrumentationTestRunner" />
         <option name="hidden-api-checks" value="false"/>
     </test>
